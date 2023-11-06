@@ -7,7 +7,7 @@ from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework import status
 from rest_framework.response import Response
-# from rest_framework.permissions import AllowAny
+from rest_framework.permissions import AllowAny
 from django.contrib.auth import authenticate
 from django.contrib.auth.models import update_last_login
 # from django.contrib.auth.models import AnonymousUser
@@ -15,6 +15,7 @@ from django.contrib.auth.models import update_last_login
 # from config.settings import SECRET_KEY
 
 class RegisterAPIView(APIView):
+    permission_classes = [AllowAny]
     # 회원가입
     def post(self, request):
         serializer = UserSerializer(data=request.data)
@@ -44,7 +45,7 @@ class RegisterAPIView(APIView):
             return res
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-class AuthAPIView(APIView):
+class UserAPIView(APIView):
     # 회원 정보 조회
     def get(self, request):
         try:
@@ -54,6 +55,9 @@ class AuthAPIView(APIView):
 
         except(AttributeError):
             return Response({"message": "no token"}, status=status.HTTP_400_BAD_REQUEST)
+        
+class AuthAPIView(APIView):
+    permission_classes = [AllowAny]
         
     # 로그인
     def post(self, request):
