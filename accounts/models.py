@@ -32,8 +32,8 @@ class UserManager(BaseUserManager):
 class User(AbstractBaseUser, PermissionsMixin):
     email = models.EmailField(max_length=50, unique=True)
     treename = models.CharField(max_length=20, null=True, blank=True)
-    treephase = models.IntegerField(null=True, blank=True)
-    watered = models.IntegerField(null=True, blank=True)
+    treephase = models.IntegerField(default=1, null=True, blank=True)
+    watered = models.IntegerField(default=0, null=True, blank=True)
     tutorial = models.BooleanField(default=False)
     is_superuser = models.BooleanField(default=False)
     is_active = models.BooleanField(default=True)
