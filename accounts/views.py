@@ -34,6 +34,7 @@ class RegisterAPIView(APIView):
                         "access": access_token,
                         "refresh": refresh_token,
                     },
+                    "treeimage": "static/treephase/treephase{0}.png".format(user.treephase),
                 },
                 status=status.HTTP_200_OK,
             )
@@ -51,7 +52,14 @@ class UserAPIView(APIView):
         try:
             user = request.user
             serializer = UserSerializer(instance=user)
-            return Response(serializer.data, status=status.HTTP_200_OK)
+            queryset = User.objects.filter(is_staff=False)
+            totalUser = queryset.count()
+            return Response({
+                    "user": serializer.data,
+                    "treeimage": "static/treephase/treephase{0}.png".format(user.treephase),
+                    "totalUser": totalUser,
+                },
+                status=status.HTTP_200_OK,)
 
         except(AttributeError):
             return Response({"message": "no token"}, status=status.HTTP_400_BAD_REQUEST)
@@ -81,6 +89,7 @@ class AuthAPIView(APIView):
                         "access": access_token,
                         "refresh": refresh_token,
                     },
+                    "treeimage": "static/treephase/treephase{0}.png".format(user.treephase),
                 },
                 status=status.HTTP_200_OK,
             )
