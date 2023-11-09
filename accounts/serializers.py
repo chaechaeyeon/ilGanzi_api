@@ -12,3 +12,6 @@ class UserSerializer(serializers.ModelSerializer):
             password = validated_data['password']
         )
         return user
+    
+class TreeNameSerializer(serializers.Serializer):
+    treename = serializers.CharField(max_length=20)

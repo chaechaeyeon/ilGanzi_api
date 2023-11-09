@@ -11,7 +11,7 @@ from rest_framework.permissions import AllowAny
 from django.contrib.auth import authenticate
 from django.contrib.auth.models import update_last_login
 # from django.contrib.auth.models import AnonymousUser
-# from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404
 # from config.settings import SECRET_KEY
 
 class RegisterAPIView(APIView):
@@ -63,6 +63,17 @@ class UserAPIView(APIView):
 
         except(AttributeError):
             return Response({"message": "no token"}, status=status.HTTP_400_BAD_REQUEST)
+    
+    def patch(self, request):
+        # user = request.user
+        user = get_object_or_404(User, id=request.user.id)
+        serializer = TreeNameSerializer(data=request.data)
+        if serializer.is_valid():
+            treename = serializer.data.get('treename')
+            user.treename = treename
+            user.save()
+            return Response({"message": "tree name changed"}, status=status.HTTP_200_OK,)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
         
 class AuthAPIView(APIView):
     permission_classes = [AllowAny]
@@ -113,3 +124,16 @@ class AuthAPIView(APIView):
         token.blacklist()
         response.delete_cookie("refresh")
         return response
+    
+class FindIdAPIView(APIView):
+    # id 찾기
+    permission_classes = [AllowAny]
+    def post(self, request):
+        pN = request.data.get('phoneNumber')
+        user = get_object_or_404(User, phoneNumber=pN)
+        return Response({"email": user.email})
+        
+class FindPwAPIView(APIView):
+    # pw 찾기
+    def post(self, request):
+        pass
