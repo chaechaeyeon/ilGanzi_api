@@ -245,3 +245,5 @@ DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 APSCHEDULER_DATETIME_FORMAT = "N j, Y, f:s a"  # Default
 
 SCHEDULER_DEFAULT = True
+
+CSRF_TRUSTED_ORIGINS = ['https://ilganziback-lvwun.run.goorm.site']
