@@ -2,6 +2,8 @@ from django.db import models
 
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, PermissionsMixin
 
+from django.utils import timezone
+
 class UserManager(BaseUserManager):
     def create_user(self, email, password, phoneNumber, **kwargs):
         if not email:
@@ -50,3 +52,8 @@ class User(AbstractBaseUser, PermissionsMixin):
 
     def __str__(self):
         return self.email
+
+
+class CodeForFindPw(models.Model):
+    email = models.EmailField(max_length=50)
+    code = models.CharField(max_length=6, null=True, blank=True)
