@@ -1,15 +1,19 @@
 from apscheduler.schedulers.background import BackgroundScheduler
+from apscheduler.triggers.cron import CronTrigger
 from django_apscheduler.jobstores import register_events, DjangoJobStore
-from .models import User
 from .views import resetWatered
-
+from django.conf import settings
 
 
 def start():
-    scheduler=BackgroundScheduler()
-    scheduler.add_jobstore(DjangoJobStore(), 'djangojobstore')
+    scheduler = BackgroundScheduler(timezone=settings.TIME_ZONE)
     register_events(scheduler)
-    @scheduler.scheduled_job('cron', hour=0, minute=22, name = 'resetWatered')
-    def auto_resetWatered():
-        resetWatered()
+
+    scheduler.add_job(
+        resetWatered,
+        trigger=CronTrigger(hour="0", minute="00"),
+        max_instances=1,
+        name="resetWatered",
+    )
+
     scheduler.start()

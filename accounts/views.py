@@ -20,9 +20,9 @@ from random import *
 
 def resetWatered():
     users = User.objects.all()
-    for i in range(users.count()):
-        users[i].watered = 1
-        users[i].save()
+    for user in users:
+        user.watered = 0
+        user.save()
     return
 
 def create_code(): # 보안코드 생성
