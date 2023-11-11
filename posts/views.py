@@ -21,21 +21,16 @@ class TreeViewSet(ModelViewSet):
         return Response(serializer.data)
 
     @action(detail=True, methods=['post'], url_path='watering')
-    def watering(self, request, pk=None):
-        tree = self.get_object()
-        if tree.watered < 1:
-            tree.watered += 1
-            tree.totalWatered += 1
-            tree.save()
-           
-            if tree.totalWatered == 70:
-                if tree.treephase < 5:
-                    tree.treephase += 1
-                    tree.totalWatered = 0
-                tree.save()
-            return Response({'watering successed'})
-        else:
-            return Response({'기본 1일 물 할당량 1번 '})
+    def watering(self, request):
+        user = request.user
+        user.totalWatered += 1
+        user.watered += 1
+        if user.totalWatered >= 80:
+            return Response({"message": "max watered"}, status=status.HTTP_400_BAD_REQUEST)
+        elif user.totalWatered % 20 == 0:
+            user.treephase += 1
+        user.save()
+        return Response({"message": "watering successed"}, status=status.HTTP_200_OK)
 
     @action(detail=True, methods=['post'], url_path='view_ad_watering')
     def view_ad(self, request, pk=None):
