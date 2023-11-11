@@ -1,0 +1,8 @@
+.git
+.gitignore
+.dockerignore
+Dockerfile
+venv/
+secrets.json
+__pycache__/
+media
