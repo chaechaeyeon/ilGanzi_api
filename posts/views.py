@@ -20,8 +20,8 @@ class TreeViewSet(ModelViewSet):
         serializer = TreeSerializer(user_tree)
         return Response(serializer.data)
 
-    @action(detail=True, methods=['post'], url_path='sefirot_tree')
-    def sefirot_tree(self, request, pk=None):
+    @action(detail=True, methods=['post'], url_path='watering')
+    def watering(self, request, pk=None):
         tree = self.get_object()
         if tree.watered < 1:
             tree.watered += 1
@@ -33,11 +33,11 @@ class TreeViewSet(ModelViewSet):
                     tree.treephase += 1
                     tree.totalWatered = 0
                 tree.save()
-            return Response({'물 주기 성공'})
+            return Response({'watering successed'})
         else:
             return Response({'기본 1일 물 할당량 1번 '})
 
-    @action(detail=True, methods=['post'], url_path='view_ad')
+    @action(detail=True, methods=['post'], url_path='view_ad_watering')
     def view_ad(self, request, pk=None):
         tree = self.get_object()
         if tree.watered == 1:
@@ -51,6 +51,6 @@ class TreeViewSet(ModelViewSet):
                     tree.totalWatered = 0
                 tree.save()
 
-            return Response({'광고 후 물 2회차'})
+            return Response({'AD watering successed'})
 
         return Response({'하루치 물 소진 완료'}, status=status.HTTP_400_BAD_REQUEST)
