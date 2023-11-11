@@ -58,6 +58,7 @@ INSTALLED_APPS = [
     'rest_framework_simplejwt.token_blacklist',
     'corsheaders',
     'accounts',
+    'posts',
 
 ]
 
@@ -228,13 +229,13 @@ CORS_ALLOW_HEADERS = (
     #만약 허용해야할 추가적인 헤더키가 있다면(사용자정의 키) 여기에 추가하면 됩니다.
 )
 
-EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST = get_secret("EMAIL_HOST")
-EMAIL_USE_TLS = True
-EMAIL_PORT = get_secret("EMAIL_PORT")
-EMAIL_HOST_USER = get_secret("EMAIL_HOST_USER")
-EMAIL_HOST_PASSWORD = get_secret("EMAIL_HOST_PASSWORD")
-DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
+# EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+# EMAIL_HOST = get_secret("EMAIL_HOST")
+# EMAIL_USE_TLS = True
+# EMAIL_PORT = get_secret("EMAIL_PORT")
+# EMAIL_HOST_USER = get_secret("EMAIL_HOST_USER")
+# EMAIL_HOST_PASSWORD = get_secret("EMAIL_HOST_PASSWORD")
+# DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 
 # 윈도우에서 불가능
 # CRONJOBS = [ 
