@@ -62,7 +62,7 @@ class RegisterAPIView(APIView):
             
             # jwt 토큰 => 쿠키에 저장
             # res.set_cookie("access", access_token, httponly=True)
-            res.set_cookie("refresh", refresh_token, httponly=True)
+            res.set_cookie("refresh", refresh_token, httponly=True, samesite=None, secure=True)
             
             return res
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
@@ -85,7 +85,7 @@ class UserAPIView(APIView):
         except(AttributeError):
             return Response({"message": "no token"}, status=status.HTTP_400_BAD_REQUEST)
     
-    def patch(self, request):
+    def patch(self, request): # 나무 이름 설정
         # user = request.user
         user = get_object_or_404(User, id=request.user.id)
         serializer = TreeNameSerializer(data=request.data)
@@ -127,7 +127,7 @@ class AuthAPIView(APIView):
             )
 
             # jwt 토큰 => 쿠키에 저장
-            res.set_cookie("refresh", refresh_token, httponly=True)
+            res.set_cookie("refresh", refresh_token, httponly=True, samesite=None, secure=True)
             return res
         else: # 이메일이나 비번 둘 중 하나가 틀렸을 때
             return Response({"message": "Login failed"}, status=status.HTTP_400_BAD_REQUEST)
